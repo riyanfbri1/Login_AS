@@ -15,9 +15,9 @@ import cz.msebera.android.httpclient.Header;
 
 public class MenuActivity extends AppCompatActivity {
 
-    private Button _btnMahasiswa, _btnForex;
+    private Button _btnMahasiswa, _btnForex, _btnCuaca;
 
-    private Intent _tampilMahasiswaIntent, _tampilForexInten;
+    private Intent _tampilMahasiswaIntent, _tampilForexInten,_tampilCuacaIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +36,7 @@ public class MenuActivity extends AppCompatActivity {
                 asyncHttpClient.get(url, new AsyncHttpResponseHandler() {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                        Toast.makeText(getApplicationContext(),"Selamat Datang, di Menu Mahasiswa", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Selamat Datang, di Menu Mahasiswa", Toast.LENGTH_SHORT).show();
                         _tampilMahasiswaIntent = new Intent(getApplicationContext(), TampilMahasiswaActivity.class);
                         startActivity(_tampilMahasiswaIntent);
                     }
@@ -47,7 +47,7 @@ public class MenuActivity extends AppCompatActivity {
                     }
                 });
             }
-   });
+        });
         _btnForex = findViewById(R.id.btnForex);
         _btnForex.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +60,28 @@ public class MenuActivity extends AppCompatActivity {
                     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                         Toast.makeText(getApplicationContext(), "Selamat Datang, di Forex", Toast.LENGTH_SHORT).show();
                         _tampilForexInten = new Intent(getApplicationContext(), ForexMainActivity.class);
+                        startActivity(_tampilForexInten);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        _btnCuaca = findViewById(R.id.btnCuaca);
+        _btnCuaca.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AsyncHttpClient asyncHttpClient;
+                String url = "https://api.openweathermap.org/data/2.5/forecast?id=1630789&appid=ba8c960383bb17d0b62ed0c0f78bfeaa";
+                asyncHttpClient = new AsyncHttpClient();
+                asyncHttpClient.get(url, new AsyncHttpResponseHandler() {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                        Toast.makeText(getApplicationContext(), "Selamat Datang, di Cuaca", Toast.LENGTH_SHORT).show();
+                        _tampilForexInten = new Intent(getApplicationContext(), MainActivityCuaca.class);
                         startActivity(_tampilForexInten);
                     }
 
